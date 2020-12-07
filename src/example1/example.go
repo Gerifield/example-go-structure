@@ -8,11 +8,14 @@ import (
 
 // Server .
 type Server struct {
+	staticFolder string
 }
 
 // New .
-func New() *Server {
-	return &Server{}
+func New(staticFolder string) *Server {
+	return &Server{
+		staticFolder: staticFolder,
+	}
 }
 
 func (s *Server) Routes() http.Handler {
@@ -21,6 +24,9 @@ func (s *Server) Routes() http.Handler {
 	// TODO: add a basic logging middleware
 
 	r.Get("/", s.handleIndex)
+
+	// Serve static files
+	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir(s.staticFolder))))
 
 	r.Group(func(r chi.Router) {
 		r.Use(authMiddleware1)
