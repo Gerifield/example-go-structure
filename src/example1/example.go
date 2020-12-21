@@ -29,8 +29,8 @@ func (s *Server) Routes() http.Handler {
 	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir(s.staticFolder))))
 
 	r.Group(func(r chi.Router) {
-		r.Use(authMiddleware1)
-		//r.Use(authMiddleware2([]userPass{{"admin", "admin"}, {"test1", "test1"}}))
+		//r.Use(authMiddleware1)
+		r.Use(authMiddleware2([]userPass{{"admin", "admin"}, {"test1", "test1"}}))
 
 		r.Get("/secret", s.handleSecret)
 	})
