@@ -1,6 +1,10 @@
 package example1
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+	"time"
+)
 
 func authMiddleware1(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -42,4 +46,12 @@ func authMiddleware2(users []userPass) func(h http.Handler) http.Handler {
 			return
 		})
 	}
+}
+
+func basicLogging(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		t := time.Now()
+		h.ServeHTTP(w, r)
+		log.Printf("%s %s (%s) \n", r.Method, r.RequestURI, time.Now().Sub(t))
+	})
 }

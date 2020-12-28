@@ -21,7 +21,7 @@ func New(staticFolder string) *Server {
 func (s *Server) Routes() http.Handler {
 	r := chi.NewRouter()
 
-	// TODO: add a basic logging middleware
+	r.Use(basicLogging)
 
 	r.Get("/", s.handleIndex)
 
