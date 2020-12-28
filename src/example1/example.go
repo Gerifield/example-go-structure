@@ -1,6 +1,7 @@
 package example1
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -34,6 +35,9 @@ func (s *Server) Routes() http.Handler {
 
 		r.Get("/secret", s.handleSecret)
 	})
+
+	r.Post("/json", s.handleJSON)
+
 	return r
 }
 
@@ -43,4 +47,23 @@ func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleSecret(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write([]byte("This is a secret!"))
+}
+
+func (s *Server) handleJSON(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		A string `json:"A"`
+	}
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(struct {
+		A string `json:"A"`
+		B string `json:"B"`
+	}{
+		A: input.A,
+		B: "some value",
+	})
 }

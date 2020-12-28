@@ -51,7 +51,22 @@ func authMiddleware2(users []userPass) func(h http.Handler) http.Handler {
 func basicLogging(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		t := time.Now()
-		h.ServeHTTP(w, r)
-		log.Printf("%s %s (%s) \n", r.Method, r.RequestURI, time.Now().Sub(t))
+		lw := NewLoggingResponseWriter(w)
+		h.ServeHTTP(lw, r)
+		log.Printf("%d - %s %s (%s) \n", lw.statusCode, r.Method, r.RequestURI, time.Now().Sub(t))
 	})
+}
+
+type loggingResponseWriter struct {
+	http.ResponseWriter
+	statusCode int
+}
+
+func NewLoggingResponseWriter(w http.ResponseWriter) *loggingResponseWriter {
+	return &loggingResponseWriter{w, http.StatusOK}
+}
+
+func (lrw *loggingResponseWriter) WriteHeader(code int) {
+	lrw.statusCode = code
+	lrw.ResponseWriter.WriteHeader(code)
 }

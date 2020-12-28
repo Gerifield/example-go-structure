@@ -85,3 +85,10 @@ $ curl -v -u "test1:test1a" http://127.0.0.1:8080/secret
 * Connection #0 to host 127.0.0.1 left intact
 Nope!* Closing connection 0
 ```
+
+Third example with some JSON parsing:
+
+```
+$ curl http://127.0.0.1:8080/json -d '{"A":"test"}'
+{"A":"test","B":"some value"}
+```
