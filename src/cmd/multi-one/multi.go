@@ -37,6 +37,7 @@ func main() {
 		// https://www.opsdash.com/blog/job-queues-in-go.html
 		// https://www.leolara.me/blog/closing_a_go_channel_written_by_several_goroutines/
 		// https://callistaenterprise.se/blogg/teknik/2019/10/05/go-worker-cancellation/
+		// https://blog.golang.org/pipelines
 	}
 }
 
