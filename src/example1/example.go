@@ -51,19 +51,30 @@ func (s *Server) handleSecret(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleJSON(w http.ResponseWriter, r *http.Request) {
 	var input struct {
-		A string `json:"A"`
+		Apple string `json:"A"`
 	}
+
 	err := json.NewDecoder(r.Body).Decode(&input)
+	//b, _ := ioutil.ReadAll(r.Body)
+	//err := json.Unmarshal(b, &input)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	json.NewEncoder(w).Encode(struct {
-		A string `json:"A"`
-		B string `json:"B"`
+	_ = json.NewEncoder(w).Encode(struct {
+		A string `json:"a"`
+		B string `json:"b"`
 	}{
-		A: input.A,
+		A: input.Apple,
 		B: "some value",
 	})
+	//b, _ := json.Marshal(struct {
+	//	A string `json:"a"`
+	//	B string `json:"b"`
+	//}{
+	//	A: input.Apple,
+	//	B: "some value",
+	//})
+	//_, _ = w.Write(b)
 }

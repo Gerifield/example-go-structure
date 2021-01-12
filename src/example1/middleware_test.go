@@ -74,5 +74,4 @@ func TestAuthMiddleware1ShouldAuth(t *testing.T) {
 		assert.Equal(t, tt.expectedCode, rec.Code)
 		assert.Equal(t, tt.expectedBody, rec.Body.String())
 	}
-
 }

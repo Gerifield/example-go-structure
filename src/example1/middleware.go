@@ -53,7 +53,7 @@ func basicLogging(h http.Handler) http.Handler {
 		t := time.Now()
 		lw := NewLoggingResponseWriter(w)
 		h.ServeHTTP(lw, r)
-		log.Printf("%d - %s %s (%s) \n", lw.statusCode, r.Method, r.RequestURI, time.Now().Sub(t))
+		log.Printf("%d - %s %s (%s)\n", lw.statusCode, r.Method, r.RequestURI, time.Now().Sub(t))
 	})
 }
 
