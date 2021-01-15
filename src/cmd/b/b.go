@@ -6,6 +6,8 @@ import (
 	"net/http"
 
 	"github.com/gerifield/example-go-structure/src/example1"
+
+	_ "net/http/pprof"
 )
 
 func main() {
@@ -14,6 +16,11 @@ func main() {
 	flag.Parse()
 
 	s := example1.New(*static)
+
+	// pprof enable
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
 
 	log.Println("Listen on", *listen)
 	_ = http.ListenAndServe(*listen, s.Routes())
