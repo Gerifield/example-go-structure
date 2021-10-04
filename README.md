@@ -92,3 +92,26 @@ Third example with some JSON parsing:
 $ curl http://127.0.0.1:8080/json -d '{"A":"test"}'
 {"A":"test","B":"some value"}
 ```
+
+
+# Third example
+
+Surprisingly it is in the `example2` folder. It shows an example how to separate the business logic from the transport layer.
+
+Run it:
+
+```
+$ go run src/cmd/c/c.go
+```
+
+Test calls:
+
+```
+$ curl 127.0.0.1:8080
+hello index
+```
+
+```
+$ curl "127.0.0.1:8080/greeting?name=Bob"
+hello Bob
+```
